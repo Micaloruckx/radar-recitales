@@ -1,4 +1,4 @@
-name: Radar de Recitales — Alerta Email
+name: Radar de Recitales - Alerta Email
 
 on:
   schedule:
@@ -22,14 +22,7 @@ jobs:
 
       - name: Ejecutar script de alertas
         env:
-          GMAIL_USER:     ${{ secrets.GMAIL_USER }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
-          EMAIL_DESTINO:  ${{ secrets.EMAIL_DESTINO }}
+          EMAIL_DESTINO: ${{ secrets.EMAIL_DESTINO }}
         run: node scripts/check-concerts.js
-```
-
----
-
-**PASO 4 — El nombre del archivo** arriba del editor debe decir exactamente:
-```
-alert.yml
