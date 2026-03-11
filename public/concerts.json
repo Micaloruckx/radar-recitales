@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-11T19:37:04.162Z",
+  "updatedAt": "2026-03-11T19:56:26.557Z",
   "usdToArs": 1415,
   "concerts": [
     {
@@ -233,6 +233,7 @@
         "songkick"
       ]
     },
+    "concertsError": "HTTP 400",
     "watchedArtists": [
       "Robbie Williams",
       "Bad Bunny",
@@ -242,6 +243,6 @@
       "Coldplay"
     ],
     "manualShowsCount": 1,
-    "ticketmasterSkipped": true
+    "ticketmasterSkipped": false
   }
 }
