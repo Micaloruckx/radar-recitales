@@ -153,73 +153,98 @@ export default function App() {
 
       setUsdToArs(remoteRate);
       setDataUpdatedAt(payload.updatedAt || null);
-      setLastSyncAt(new Date());
-      setSyncError(null);
-      setAnimKey(k => k + 1);
-    } catch {
-      setSyncError("Sin conexión en vivo");
-    } finally {
-      if (showSpinner) setLoading(false);
-    }
-  }, [fetchPayload]);
-
-  useEffect(() => {
-    loadConcerts({ showSpinner: true });
-    const timer = setInterval(() => {
-      loadConcerts();
-    }, POLL_INTERVAL_MS);
-    return () => clearInterval(timer);
-  }, [loadConcerts]);
-
-  const toggleNotify = (id) => {
-    setConcerts(prev => prev.map(c => {
-      if (c.id !== id) return c;
-      const updated = { ...c, notified: !c.notified };
-      if (updated.notified) setToast(updated);
-      return updated;
-    }));
-  };
-
-  const handleRefresh = useCallback(() => {
-    loadConcerts({ showSpinner: true });
-  }, [loadConcerts]);
-
-  const filtered = concerts
-    .filter(c => genre  === "Todos" || c.genre  === genre)
-    .filter(c => origen === "Todos" || c.origen === origen)
-    .filter(c => search === "" ||
-      c.artist.toLowerCase().includes(search.toLowerCase()) ||
-      c.city.toLowerCase().includes(search.toLowerCase()) ||
-      c.venue.toLowerCase().includes(search.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (sort === "demand") return b.demand - a.demand;
-      if (sort === "date")   return new Date(a.date) - new Date(b.date);
-      if (sort === "price")  return a.priceARS - b.priceARS;
-      return 0;
-    });
-
-  const notifiedCount = concerts.filter(c => c.notified).length;
-  const nacionales    = concerts.filter(c => c.origen === "Nacional").length;
-
-  return (
-    <div style={{ minHeight: "100vh", background: "var(--color-bg)", color: "var(--color-text-primary)", fontFamily: "var(--font-family-base)", paddingBottom: 80 }}>
-      <style>{`
-        @keyframes fadeUp  { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes toastIn { from{opacity:0;transform:translateY(16px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
-        @keyframes spin    { to{transform:rotate(360deg)} }
-        .card-item {
-          animation: fadeUp .4s cubic-bezier(.4,0,.2,1) both;
-          transition: transform .2s ease, box-shadow .2s ease;
-        }
-        .card-item:hover { transform:translateY(-2px); box-shadow:0 18px 48px rgba(0,0,0,.7) !important; }
-        .pill { transition: all .15s ease; cursor: pointer; }
-        .pill:hover { opacity: .75; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background:#2a2a2a; border-radius:99px; }
-        select option { background:var(--color-surface); }
-        input { outline:none; }
+        {isHeaderCompact ? (
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 18,
+            maxWidth: isMobile ? 220 : 280,
+            margin: "0 auto",
+            borderRadius: 12,
+            background: "transparent",
+            border: "none",
+            padding: 0,
+            boxShadow: "none",
+            transition: "all .28s ease",
+          }}>
+            <img
+              src="/logo-radar-recitales.png"
+              alt="Radar de Recitales"
+              style={{
+                width: "100%",
+                maxWidth: isMobile ? 170 : 220,
+                height: "auto",
+                objectFit: "contain",
+                margin: 0,
+                display: "block",
+                transition: "max-width .28s ease",
+              }}
+            />
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: 12,
+            }}>
+              {[
+                { key: "Todos", color: "#b2b8c5", icon: "🌍" },
+                { key: "Nacional", color: "#ffd60a", icon: "🇦🇷" },
+                { key: "Internacional", color: "#30d158", icon: "🌍" },
+              ].map(({ key, color, icon }) => (
+                <button
+                  key={key}
+                  onClick={() => setOrigen(key)}
+                  title={key}
+                  style={{
+                    width: 24,
+                    height: 24,
+                    borderRadius: "50%",
+                    background: color,
+                    boxShadow: `0 0 6px ${color}66`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 15,
+                    color: key === "Nacional" ? "#222" : "#fff",
+                    fontWeight: 700,
+                    border: origen === key ? "2px solid #fff" : "2px solid transparent",
+                    outline: "none",
+                    cursor: "pointer",
+                    transition: "border .18s",
+                  }}
+                >{icon}</button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div style={{
+            maxWidth: isMobile ? 390 : 520,
+            margin: "0 auto",
+            borderRadius: 18,
+            background: "linear-gradient(180deg, rgba(29,35,48,.95), rgba(23,27,35,.95))",
+            border: "1px solid var(--color-border-soft)",
+            padding: isMobile ? "12px 14px" : "14px 18px",
+            boxShadow: "0 16px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06)",
+            transition: "all .28s ease",
+          }}>
+            <img
+              src="/logo-radar-recitales.png"
+              alt="Radar de Recitales"
+              style={{
+                width: "100%",
+                maxWidth: isMobile ? 320 : 420,
+                height: "auto",
+                objectFit: "contain",
+                margin: "0 auto",
+                display: "block",
+                transition: "max-width .28s ease",
+              }}
+            />
+          </div>
+        )}
         input::placeholder { color:var(--color-text-tertiary); }
         /* pill scroll row */
         .scroll-row {
