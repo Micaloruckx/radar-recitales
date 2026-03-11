@@ -75,16 +75,16 @@ function Toast({ concert, onClose }) {
   return (
     <div style={{
       position: "fixed", bottom: 16, right: 16, left: 16, zIndex: 9999,
-      background: "#1c1c1e", border: "1px solid #ff6b3566",
+      background: "var(--color-surface-elevated)", border: "1px solid rgba(48,209,88,.45)",
       borderRadius: 16, padding: "14px 18px",
       boxShadow: "0 20px 60px rgba(0,0,0,.9)",
       animation: "toastIn .4s cubic-bezier(.34,1.56,.64,1)",
       fontFamily: "inherit", maxWidth: 340, margin: "0 auto",
     }}>
-      <div style={{ fontSize: 10, color: "#ff6b35", letterSpacing: 2, textTransform: "uppercase", marginBottom: 5 }}>🔔 Alerta activada</div>
+      <div style={{ fontSize: 10, color: "var(--color-success)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 5 }}>🔔 Alerta activada</div>
       <div style={{ fontSize: 15, color: "#fff", fontWeight: 700 }}>{concert.artist}</div>
       <div style={{ fontSize: 12, color: "#8e8e93", marginTop: 2 }}>{concert.venue} · {formatDate(concert.date)}</div>
-      <div style={{ fontSize: 11, color: "#ff6b35", marginTop: 4 }}>Te avisaremos si salen nuevas entradas</div>
+      <div style={{ fontSize: 11, color: "var(--color-success)", marginTop: 4 }}>Te avisaremos si salen nuevas entradas</div>
     </div>
   );
 }
@@ -104,6 +104,7 @@ export default function App() {
   const [loading, setLoading]     = useState(false);
   const [animKey, setAnimKey]     = useState(0);
   const [isMobile, setIsMobile]   = useState(false);
+  const [isHeaderCompact, setIsHeaderCompact] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 600);
@@ -111,6 +112,16 @@ export default function App() {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const threshold = isMobile ? 70 : 110;
+      setIsHeaderCompact(window.scrollY > threshold);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isMobile]);
 
   const fetchPayload = useCallback(async (url) => {
     const response = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
@@ -192,7 +203,7 @@ export default function App() {
   const nacionales    = concerts.filter(c => c.origen === "Nacional").length;
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--color-bg)", color: "var(--color-text-primary)", fontFamily: "'Georgia', serif", paddingBottom: 80 }}>
+    <div style={{ minHeight: "100vh", background: "var(--color-bg)", color: "var(--color-text-primary)", fontFamily: "var(--font-family-base)", paddingBottom: 80 }}>
       <style>{`
         @keyframes fadeUp  { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         @keyframes toastIn { from{opacity:0;transform:translateY(16px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
@@ -226,42 +237,157 @@ export default function App() {
       {/* ───── HEADER ───── */}
       <div style={{
         position: "sticky", top: 0, zIndex: 200,
-        background: "rgba(0,0,0,0.93)", backdropFilter: "blur(20px)",
+        background: "rgba(14,17,23,0.9)", backdropFilter: "blur(20px)",
         borderBottom: "1px solid var(--color-border-soft)",
-        padding: isMobile ? "16px 16px 12px" : "20px 20px 16px",
+        padding: isHeaderCompact
+          ? (isMobile ? "8px 12px 8px" : "10px 16px 10px")
+          : (isMobile ? "16px 16px 14px" : "22px 20px 18px"),
         textAlign: "center",
+        transition: "padding .28s ease, background .28s ease",
       }}>
-        <div style={{ fontSize: 8, letterSpacing: 5, color: "#ff6b35", textTransform: "uppercase", marginBottom: 5 }}>
+        <div style={{
+          fontSize: isHeaderCompact ? 8 : 10,
+          letterSpacing: isHeaderCompact ? 2.5 : 4,
+          color: "var(--color-success)",
+          textTransform: "uppercase",
+          marginBottom: isHeaderCompact ? 4 : 10,
+          opacity: isHeaderCompact ? 0.8 : 1,
+          transition: "all .28s ease",
+        }}>
           ◆ ARGENTINA ◆ 2026 ◆
         </div>
-        <h1 style={{
-          margin: 0,
-          fontSize: isMobile ? "clamp(22px, 7vw, 30px)" : "clamp(28px, 5vw, 42px)",
-          fontWeight: 900, letterSpacing: -1.2,
-          background: "linear-gradient(135deg, #fff 0%, #ff6b35 55%, #ff2d55 100%)",
-          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", lineHeight: 1.1,
-        }}>RADAR DE RECITALES</h1>
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 7, flexWrap: "wrap" }}>
-          {[
-            { label: `${notifiedCount} alerta${notifiedCount !== 1 ? "s" : ""}`, color: "#ff6b35" },
-            { label: `🇦🇷 ${nacionales} nacionales`, color: "#ffd60a" },
-            { label: `${concerts.length} shows`, color: "var(--color-text-muted)" },
-          ].map(({ label, color }) => (
-            <span key={label} style={{ fontSize: 10, color, letterSpacing: 0.4 }}>{label}</span>
-          ))}
+        <div style={{
+          maxWidth: isHeaderCompact
+            ? (isMobile ? 220 : 280)
+            : (isMobile ? 390 : 520),
+          margin: "0 auto",
+          borderRadius: isHeaderCompact ? 12 : 18,
+          background: isHeaderCompact
+            ? "transparent"
+            : "linear-gradient(180deg, rgba(29,35,48,.95), rgba(23,27,35,.95))",
+          border: isHeaderCompact ? "none" : "1px solid var(--color-border-soft)",
+          padding: isHeaderCompact
+            ? 0
+            : (isMobile ? "12px 14px" : "14px 18px"),
+          boxShadow: isHeaderCompact
+            ? "none"
+            : "0 16px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06)",
+          transition: "all .28s ease",
+        }}>
+          <img
+            src="/logo-radar-recitales.png"
+            alt="Radar de Recitales"
+            style={{
+              width: "100%",
+              maxWidth: isHeaderCompact
+                ? (isMobile ? 170 : 220)
+                : (isMobile ? 320 : 420),
+              height: "auto",
+              objectFit: "contain",
+              margin: "0 auto",
+              display: "block",
+              transition: "max-width .28s ease",
+            }}
+          />
         </div>
+        {isHeaderCompact ? (
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 12,
+            marginTop: 0,
+            marginBottom: 0,
+          }}>
+            <img
+              src="/logo-radar-recitales.png"
+              alt="Radar de Recitales"
+              style={{
+                width: "100%",
+                maxWidth: isMobile ? 170 : 220,
+                height: "auto",
+                objectFit: "contain",
+                display: "block",
+                transition: "max-width .28s ease",
+              }}
+            />
+            <div style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 8,
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+              {[
+                { key: "Todos", color: "#b2b8c5", icon: "🌍" },
+                { key: "Nacional", color: "#ffd60a", icon: "🇦🇷" },
+                { key: "Internacional", color: "#30d158", icon: "🌍" },
+              ].map(({ key, color, icon }) => (
+                <button
+                  key={key}
+                  onClick={() => setOrigen(key)}
+                  title={key}
+                  style={{
+                    width: 24,
+                    height: 24,
+                    borderRadius: "50%",
+                    background: color,
+                    boxShadow: `0 0 6px ${color}66`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 15,
+                    color: key === "Nacional" ? "#222" : "#fff",
+                    fontWeight: 700,
+                    border: origen === key ? "2px solid #fff" : "2px solid transparent",
+                    outline: "none",
+                    cursor: "pointer",
+                    transition: "border .18s",
+                  }}
+                >{icon}</button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div style={{
+            display: "flex",
+            gap: 10,
+            justifyContent: "center",
+            marginTop: 12,
+            flexWrap: "wrap",
+          }}>
+            {[
+              { label: `${notifiedCount} alerta${notifiedCount !== 1 ? "s" : ""}`, color: "var(--color-success)", bg: "rgba(48,209,88,.14)", border: "rgba(48,209,88,.35)" },
+              { label: `🇦🇷 ${nacionales} nacionales`, color: "#ffd60a", bg: "rgba(255,214,10,.12)", border: "rgba(255,214,10,.34)" },
+              { label: `${concerts.length} shows`, color: "var(--color-text-secondary)", bg: "rgba(178,184,197,.12)", border: "rgba(178,184,197,.32)" },
+            ].map(({ label, color, bg, border }) => (
+              <span key={label} style={{
+                fontSize: 13,
+                color,
+                letterSpacing: 0.3,
+                fontWeight: 700,
+                background: bg,
+                border: `1px solid ${border}`,
+                borderRadius: 999,
+                padding: "5px 10px",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)",
+              }}>{label}</span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div style={{ maxWidth: 840, margin: "0 auto", padding: isMobile ? "16px 12px 0" : "22px 16px 0" }}>
 
         {/* ───── BANNER ───── */}
         <div style={{
-          background: "var(--color-surface)", border: "1px solid var(--color-border-soft)", borderRadius: 14,
+          background: "var(--color-surface-elevated)", border: "1px solid var(--color-border)", borderRadius: 14,
           padding: "10px 14px", marginBottom: 14,
           display: "flex", alignItems: "center", justifyContent: "space-between",
           flexWrap: "wrap", gap: 8,
+          boxShadow: "0 10px 28px rgba(0,0,0,.22)",
         }}>
-          <div style={{ fontSize: 11, color: "var(--color-text-secondary)", lineHeight: 1.7 }}>
+          <div style={{ fontSize: 13, color: "var(--color-text-secondary)", lineHeight: 1.7 }}>
             📡 <span style={{ color: "#aaa" }}>{formatUpdatedDate(dataUpdatedAt)}</span>
             {"  ·  "}
             <span style={{ color: syncError ? "#ff2d55" : "#30d158" }}>{syncError ? "Offline" : "En vivo"}</span>
@@ -272,11 +398,12 @@ export default function App() {
           </div>
           <button onClick={handleRefresh} className="pill" style={{
             padding: "5px 13px", borderRadius: 99,
-            background: loading ? "var(--color-surface)" : "rgba(255,107,53,0.1)",
-            border: "1px solid rgba(255,107,53,0.3)",
-            color: loading ? "var(--color-text-secondary)" : "#ff6b35",
-            fontSize: 11, fontFamily: "inherit",
+            background: loading ? "var(--color-surface)" : "rgba(48,209,88,0.15)",
+            border: "1px solid rgba(48,209,88,0.35)",
+            color: loading ? "var(--color-text-secondary)" : "var(--color-success)",
+            fontSize: 13, fontFamily: "inherit",
             display: "flex", alignItems: "center", gap: 5,
+            boxShadow: loading ? "none" : "0 6px 16px rgba(48,209,88,0.18)",
           }}>
             <span style={{ display: "inline-block", animation: loading ? "spin 1s linear infinite" : "none" }}>⟳</span>
             {loading ? "Actualizando…" : "Actualizar"}
@@ -291,14 +418,14 @@ export default function App() {
             style={{
               flex: 1, minWidth: 0, width: "100%",
               background: "var(--color-surface)", border: "1px solid var(--color-border)", borderRadius: 12,
-              padding: "9px 13px", color: "var(--color-text-primary)", fontSize: 13, fontFamily: "inherit",
+              padding: "10px 13px", color: "var(--color-text-primary)", fontSize: 15, fontFamily: "inherit",
             }}
           />
           <div style={{ display: "flex", gap: 7, width: isMobile ? "100%" : "auto" }}>
             <select value={sort} onChange={e => setSort(e.target.value)} style={{
               flex: isMobile ? 1 : "unset",
               background: "var(--color-surface)", border: "1px solid var(--color-border)", borderRadius: 12,
-              padding: "9px 10px", color: "var(--color-text-primary)", fontSize: 12, fontFamily: "inherit", cursor: "pointer",
+              padding: "10px 10px", color: "var(--color-text-primary)", fontSize: 14, fontFamily: "inherit", cursor: "pointer",
             }}>
               <option value="demand">↓ Demanda</option>
               <option value="date">↑ Fecha</option>
@@ -310,7 +437,7 @@ export default function App() {
               background: showUSD ? "rgba(48,209,88,0.12)" : "var(--color-surface)",
               border: showUSD ? "1px solid #30d15866" : "1px solid var(--color-border)",
               color: showUSD ? "#30d158" : "var(--color-text-secondary)",
-              fontSize: 11, fontFamily: "inherit", whiteSpace: "nowrap",
+              fontSize: 13, fontFamily: "inherit", whiteSpace: "nowrap",
             }}>
               {showUSD ? "🟢 ARS" : "💵 USD"}
             </button>
@@ -337,9 +464,9 @@ export default function App() {
           {GENRES.map(g => (
             <button key={g} className="pill" onClick={() => setGenre(g)} style={{
               padding: "4px 11px", borderRadius: 99,
-              border: genre === g ? "1px solid #ff6b35" : "1px solid var(--color-border-soft)",
-              background: genre === g ? "rgba(255,107,53,0.12)" : "transparent",
-              color: genre === g ? "#ff6b35" : "var(--color-text-secondary)",
+              border: genre === g ? "1px solid rgba(48,209,88,0.45)" : "1px solid var(--color-border-soft)",
+              background: genre === g ? "rgba(48,209,88,0.14)" : "transparent",
+              color: genre === g ? "var(--color-success)" : "var(--color-text-secondary)",
               fontSize: 10, letterSpacing: 0.3, fontFamily: "inherit",
             }}>
               {g}
@@ -363,14 +490,14 @@ export default function App() {
             return (
               <div key={c.id} className="card-item" style={{
                 animationDelay: `${i * 0.05}s`,
-                background: c.origen === "Nacional" ? "#0d0d12" : "#0d0d0d",
+                background: c.origen === "Nacional" ? "var(--color-surface-elevated)" : "var(--color-surface)",
                 border: c.notified
-                  ? "1px solid rgba(255,107,53,0.4)"
-                  : c.origen === "Nacional" ? "1px solid #252530" : "1px solid #1c1c1e",
+                  ? "1px solid rgba(48,209,88,0.45)"
+                  : c.origen === "Nacional" ? "1px solid var(--color-border)" : "1px solid var(--color-border-soft)",
                 borderRadius: 18,
                 padding: isMobile ? "13px 13px" : "16px 18px",
                 position: "relative", overflow: "hidden",
-                boxShadow: c.notified ? `0 0 24px ${glow}` : "0 3px 16px rgba(0,0,0,.3)",
+                boxShadow: c.notified ? "0 0 0 1px rgba(48,209,88,.12), 0 10px 26px rgba(0,0,0,.32)" : "0 6px 20px rgba(0,0,0,.25)",
               }}>
                 {/* glow accent */}
                 {c.demand >= 90 && (
@@ -406,7 +533,7 @@ export default function App() {
                     <div style={{ display: "flex", alignItems: "center", gap: 7, flexWrap: "wrap", marginBottom: 2 }}>
                       <h2 style={{
                         margin: 0,
-                        fontSize: isMobile ? 14 : 16,
+                        fontSize: isMobile ? 16 : 18,
                         fontWeight: 800, letterSpacing: -0.3, color: "#fff",
                         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                         maxWidth: isMobile ? "calc(100% - 10px)" : "calc(100% - 120px)",
@@ -431,7 +558,7 @@ export default function App() {
                     )}
 
                     {/* Venue + date */}
-                    <div style={{ fontSize: isMobile ? 10 : 11, color: "var(--color-text-secondary)", marginBottom: c.nota ? 3 : 8 }}>
+                    <div style={{ fontSize: isMobile ? 12 : 13, color: "var(--color-text-secondary)", marginBottom: c.nota ? 3 : 8 }}>
                       📍 {c.venue}
                       <span style={{ margin: "0 4px", color: "var(--color-border-soft)" }}>·</span>
                       🗓️ {formatDate(c.date)}
@@ -446,7 +573,7 @@ export default function App() {
                     {/* Nota */}
                     {c.nota && (
                       <div style={{
-                        fontSize: isMobile ? 9 : 10,
+                        fontSize: isMobile ? 11 : 12,
                         color: "#ffd60a77", marginBottom: 7, fontStyle: "italic",
                         lineHeight: 1.4,
                       }}>✦ {c.nota}</div>
@@ -484,10 +611,10 @@ export default function App() {
                           )}
                         </div>
                         {showUSD && hasKnownPrice && (
-                          <div style={{ fontSize: 9, color: "var(--color-text-muted)" }}>{fmtARS(c.priceARS)} ARS</div>
+                          <div style={{ fontSize: 11, color: "var(--color-text-muted)" }}>{fmtARS(c.priceARS)} ARS</div>
                         )}
                         {!hasKnownPrice && (
-                          <div style={{ fontSize: 9, color: "var(--color-text-muted)" }}>Sin precio oficial publicado</div>
+                          <div style={{ fontSize: 11, color: "var(--color-text-muted)" }}>Sin precio oficial publicado</div>
                         )}
                       </div>
 
@@ -504,9 +631,9 @@ export default function App() {
                         <button onClick={() => toggleNotify(c.id)} className="pill" style={{
                           padding: isMobile ? "6px 10px" : "6px 13px",
                           borderRadius: 99,
-                          border: c.notified ? "1px solid #ff6b35" : "1px solid var(--color-border)",
-                          background: c.notified ? "rgba(255,107,53,0.18)" : "rgba(255,255,255,0.03)",
-                          color: c.notified ? "#ff6b35" : "var(--color-text-muted)",
+                          border: c.notified ? "1px solid rgba(48,209,88,0.45)" : "1px solid var(--color-border)",
+                          background: c.notified ? "rgba(48,209,88,0.16)" : "rgba(255,255,255,0.03)",
+                          color: c.notified ? "var(--color-success)" : "var(--color-text-muted)",
                           fontSize: 10, fontFamily: "inherit", letterSpacing: 0.3,
                           whiteSpace: "nowrap",
                         }}>

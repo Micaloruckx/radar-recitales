@@ -2,18 +2,18 @@
   --font-family-base: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --line-height-base: 1.5;
 
-  --color-bg: #000000;
-  --color-surface: #121212;
-  --color-surface-elevated: #17171a;
-  --color-border: #3f3f46;
-  --color-border-soft: #2a2a2e;
+  --color-bg: #0e1117;
+  --color-surface: #171b23;
+  --color-surface-elevated: #1d2330;
+  --color-border: #4b5563;
+  --color-border-soft: #374151;
 
   --color-text-primary: #f5f5f5;
   --color-text-secondary: #d1d5db;
-  --color-text-muted: #a1a1aa;
-  --color-text-tertiary: #71717a;
+  --color-text-muted: #b2b8c5;
+  --color-text-tertiary: #8b93a7;
 
-  --color-accent: #ff6b35;
+  --color-accent: #30d158;
   --color-success: #30d158;
   --color-warning: #ffd60a;
   --color-danger: #ff2d55;
