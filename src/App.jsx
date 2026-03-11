@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 
 const USD_TO_ARS_DEFAULT = 1399;
 const POLL_INTERVAL_MS = 30000;
-const DATA_URL = "/concerts.json";
+const LIVE_DATA_URL = "/api/concerts-live";
+const FALLBACK_DATA_URL = "/concerts.json";
 
 const CONCERTS_DATA = [
   { id: 1, artist: "Bad Bunny", venue: "Estadio River Plate", city: "Buenos Aires", date: "2026-02-13", genre: "Urbano", demand: 100, priceARS: 207000, soldPct: 100, notified: false, emoji: "🐰", tag: "AGOTADO", origen: "Internacional" },
@@ -111,14 +112,23 @@ export default function App() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  const fetchPayload = useCallback(async (url) => {
+    const response = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  }, []);
+
   const loadConcerts = useCallback(async ({ showSpinner = false } = {}) => {
     if (showSpinner) setLoading(true);
 
     try {
-      const response = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      let payload;
+      try {
+        payload = await fetchPayload(LIVE_DATA_URL);
+      } catch {
+        payload = await fetchPayload(FALLBACK_DATA_URL);
+      }
 
-      const payload = await response.json();
       const remoteConcerts = Array.isArray(payload.concerts) ? payload.concerts : [];
       const remoteRate = Number(payload.usdToArs) || USD_TO_ARS_DEFAULT;
 
@@ -140,7 +150,7 @@ export default function App() {
     } finally {
       if (showSpinner) setLoading(false);
     }
-  }, []);
+  }, [fetchPayload]);
 
   useEffect(() => {
     loadConcerts({ showSpinner: true });

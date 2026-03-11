@@ -10,6 +10,9 @@ Este repo incluye el workflow [`.github/workflows/update-live-data.yml`](.github
 2. Actualiza `public/concerts.json`
 3. Hace commit/push automático si hubo cambios
 
+Además, en Vercel se expone `api/concerts-live` para servir recitales en vivo sin depender del build estático.
+El frontend consulta primero esta API y usa `public/concerts.json` solo como fallback.
+
 ## Qué actualiza
 
 - **USD/ARS**: intenta traer cotización desde API (por defecto `https://dolarapi.com/v1/dolares/oficial`)
@@ -45,6 +48,19 @@ npm install
 npm run update:data
 npm run dev
 ```
+
+## Setup en Vercel (recomendado)
+
+1. En Vercel Project Settings, agregar Environment Variables:
+	- `TICKETMASTER_API_KEY`
+	- `USD_API_URL` (opcional)
+	- `USD_API_KEY` (opcional)
+	- `USD_API_HEADER` (opcional)
+	- `SONGKICK_URLS` (opcional)
+	- `WATCH_ARTISTS` (opcional)
+2. Hacer redeploy de producción.
+3. Verificar endpoint: `/api/concerts-live`.
+4. El archivo `vercel.json` ya deja un cron cada 12 horas llamando ese endpoint.
 
 ## Notas
 
