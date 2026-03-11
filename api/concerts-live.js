@@ -17,7 +17,6 @@ const WATCH_ARTISTS_DEFAULT = [
 ];
 
 const CONCERTS_FILE = path.join(process.cwd(), "public", "concerts.json");
-const MANUAL_SHOWS_FILE = path.join(process.cwd(), "public", "manual-shows.json");
 
 function safeNumber(value) {
   const parsed = Number(value);
@@ -94,11 +93,6 @@ async function readCurrentData() {
     usdToArs: safeNumber(parsed.usdToArs) ?? DEFAULT_USD_TO_ARS,
     concerts: Array.isArray(parsed.concerts) ? parsed.concerts : [],
   };
-}
-
-async function readManualShows() {
-  const parsed = await readJsonFile(MANUAL_SHOWS_FILE, { shows: [] });
-  return Array.isArray(parsed.shows) ? parsed.shows : [];
 }
 
 function parseUsdRate(payload) {
@@ -395,7 +389,6 @@ function mergeConcerts(currentConcerts, externalConcerts) {
 
 async function getLiveConcertData() {
   const current = await readCurrentData();
-  const manualShows = await readManualShows();
 
   const [usdResult, ticketmasterResult, songkickResult] = await Promise.all([
     fetchUsdToArs(),
@@ -406,7 +399,6 @@ async function getLiveConcertData() {
   const merged = mergeConcerts(current.concerts, [
     ...ticketmasterResult.concerts,
     ...songkickResult.concerts,
-    ...manualShows,
   ]);
 
   return {
@@ -423,7 +415,6 @@ async function getLiveConcertData() {
       ...(ticketmasterResult.error ? { concertsError: ticketmasterResult.error } : {}),
       ...(songkickResult.error ? { concertsFallbackError: songkickResult.error } : {}),
       watchedArtists: songkickResult.watchedArtists || [],
-      manualShowsCount: manualShows.length,
       ticketmasterSkipped: Boolean(ticketmasterResult.skipped),
     },
   };

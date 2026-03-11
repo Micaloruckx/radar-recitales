@@ -7,7 +7,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "..");
 const CONCERTS_FILE = path.join(PROJECT_ROOT, "public", "concerts.json");
-const MANUAL_SHOWS_FILE = path.join(PROJECT_ROOT, "public", "manual-shows.json");
 
 const DEFAULT_USD_API_URL = "https://dolarapi.com/v1/dolares/oficial";
 const DEFAULT_USD_TO_ARS = 1400;
@@ -89,16 +88,6 @@ async function readCurrentData() {
         };
     } catch {
         return { updatedAt: null, usdToArs: DEFAULT_USD_TO_ARS, concerts: [] };
-    }
-}
-
-async function readManualShows() {
-    try {
-        const file = await fs.readFile(MANUAL_SHOWS_FILE, "utf8");
-        const parsed = JSON.parse(file);
-        return Array.isArray(parsed.shows) ? parsed.shows : [];
-    } catch {
-        return [];
     }
 }
 
@@ -425,7 +414,6 @@ async function writeData(data) {
 
 async function main() {
     const current = await readCurrentData();
-    const manualShows = await readManualShows();
 
     const [usdResult, ticketmasterResult, songkickResult] = await Promise.all([
         fetchUsdToArs(),
@@ -436,7 +424,6 @@ async function main() {
     const merged = mergeConcerts(current.concerts, [
         ...ticketmasterResult.concerts,
         ...songkickResult.concerts,
-        ...manualShows,
     ]);
 
     const nextData = {
@@ -453,7 +440,6 @@ async function main() {
             ...(ticketmasterResult.error ? { concertsError: ticketmasterResult.error } : {}),
             ...(songkickResult.error ? { concertsFallbackError: songkickResult.error } : {}),
             watchedArtists: songkickResult.watchedArtists || [],
-            manualShowsCount: manualShows.length,
             ticketmasterSkipped: Boolean(ticketmasterResult.skipped),
         },
     };

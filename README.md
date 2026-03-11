@@ -67,4 +67,3 @@ npm run dev
 - El frontend lee directamente de `public/concerts.json` y refresca en polling.
 - El campo `updatedAt` muestra la última sincronización de dataset.
 - Para mejorar calidad de “nuevos recitales”, podés sumar más fuentes API en `scripts/update-concerts-data.js`.
-- Si un show confirmado no aparece aún en APIs (ej: anuncio reciente), podés agregarlo en `public/manual-shows.json` y quedará incorporado en cada actualización automática.
