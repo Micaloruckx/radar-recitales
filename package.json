@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "update:data": "node scripts/update-concerts-data.js",
+    "check:concerts": "node scripts/check-concerts.js"
   },
   "dependencies": {
     "react": "^19.2.0",

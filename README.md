@@ -1,16 +1,54 @@
-# React + Vite
+# Radar de Recitales
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web app en React + Vite para seguir recitales en Argentina con foco en **próximos shows** y actualización automática de datos.
 
-Currently, two official plugins are available:
+## Actualización automática cada 12 horas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este repo incluye el workflow [`.github/workflows/update-live-data.yml`](.github/workflows/update-live-data.yml), que corre cada 12 horas y:
 
-## React Compiler
+1. Ejecuta `npm run update:data`
+2. Actualiza `public/concerts.json`
+3. Hace commit/push automático si hubo cambios
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Qué actualiza
 
-## Expanding the ESLint configuration
+- **USD/ARS**: intenta traer cotización desde API (por defecto `https://dolarapi.com/v1/dolares/oficial`)
+- **Recitales nuevos/próximos**:
+	- Si configurás `TICKETMASTER_API_KEY`, consulta eventos de música en Argentina
+	- Además usa una fuente pública de respaldo (Songkick) sin API key para detectar shows nuevos
+	- Si Ticketmaster no está configurado, igual incorpora nuevos recitales desde el respaldo cuando estén publicados
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Secrets de GitHub recomendados
+
+En `Settings > Secrets and variables > Actions`, crear:
+
+- `TICKETMASTER_API_KEY` (opcional, recomendado para nuevos recitales)
+- `USD_API_URL` (opcional)
+	- Si lo dejás vacío, usa el valor por defecto del script
+	- Si querés usar otra API (ej: dolar.app), poné acá el endpoint exacto
+- `USD_API_KEY` (opcional)
+	- Solo si tu API de dólar exige autenticación
+- `USD_API_HEADER` (opcional)
+	- Header para enviar la key (default: `Authorization`)
+	- Ejemplo para APIs que usan header custom: `X-API-KEY`
+- `SONGKICK_URLS` (opcional)
+	- Lista de URLs separadas por coma para ampliar scraping de eventos
+	- Si no está definido, usa URLs por defecto de Argentina/Buenos Aires
+- `WATCH_ARTISTS` (opcional)
+	- Lista separada por coma de artistas para seguimiento específico en Songkick
+	- Default incluye: Robbie Williams, Bad Bunny, Dua Lipa, Lali, Shakira, Coldplay
+
+## Uso local
+
+```bash
+npm install
+npm run update:data
+npm run dev
+```
+
+## Notas
+
+- El frontend lee directamente de `public/concerts.json` y refresca en polling.
+- El campo `updatedAt` muestra la última sincronización de dataset.
+- Para mejorar calidad de “nuevos recitales”, podés sumar más fuentes API en `scripts/update-concerts-data.js`.
+- Si un show confirmado no aparece aún en APIs (ej: anuncio reciente), podés agregarlo en `public/manual-shows.json` y quedará incorporado en cada actualización automática.

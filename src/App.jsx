@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 
-const USD_TO_ARS = 1399;
-const LAST_UPDATED = "17 feb 2026";
+const USD_TO_ARS_DEFAULT = 1399;
+const POLL_INTERVAL_MS = 30000;
+const DATA_URL = "/concerts.json";
 
 const CONCERTS_DATA = [
   { id: 1, artist: "Bad Bunny", venue: "Estadio River Plate", city: "Buenos Aires", date: "2026-02-13", genre: "Urbano", demand: 100, priceARS: 207000, soldPct: 100, notified: false, emoji: "🐰", tag: "AGOTADO", origen: "Internacional" },
@@ -37,8 +38,20 @@ function formatDate(dateStr) {
   return d.toLocaleDateString("es-AR", { day: "numeric", month: "short" });
 }
 
+function formatUpdatedDate(dateStr) {
+  if (!dateStr) return "sin dato";
+  const d = new Date(dateStr);
+  if (Number.isNaN(d.getTime())) return "sin dato";
+  return d.toLocaleDateString("es-AR", { day: "numeric", month: "short", year: "numeric" });
+}
+
+function formatSyncTime(dateObj) {
+  if (!dateObj) return "—";
+  return dateObj.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+}
+
 const fmtARS = (n) => "$" + n.toLocaleString("es-AR");
-const fmtUSD = (ars) => "US$" + Math.round(ars / USD_TO_ARS).toLocaleString("en-US");
+const fmtUSD = (ars, rate) => "US$" + Math.round(ars / rate).toLocaleString("en-US");
 
 function DemandRing({ value, size = 48 }) {
   const { color } = getDemandInfo(value);
@@ -77,6 +90,10 @@ function Toast({ concert, onClose }) {
 
 export default function App() {
   const [concerts, setConcerts]   = useState(CONCERTS_DATA);
+  const [usdToArs, setUsdToArs]   = useState(USD_TO_ARS_DEFAULT);
+  const [dataUpdatedAt, setDataUpdatedAt] = useState(null);
+  const [lastSyncAt, setLastSyncAt] = useState(null);
+  const [syncError, setSyncError]   = useState(null);
   const [genre, setGenre]         = useState("Todos");
   const [origen, setOrigen]       = useState("Todos");
   const [sort, setSort]           = useState("demand");
@@ -94,6 +111,45 @@ export default function App() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  const loadConcerts = useCallback(async ({ showSpinner = false } = {}) => {
+    if (showSpinner) setLoading(true);
+
+    try {
+      const response = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const payload = await response.json();
+      const remoteConcerts = Array.isArray(payload.concerts) ? payload.concerts : [];
+      const remoteRate = Number(payload.usdToArs) || USD_TO_ARS_DEFAULT;
+
+      setConcerts(prev => {
+        const prevNotified = new Map(prev.map(c => [c.id, c.notified]));
+        return remoteConcerts.map(c => ({
+          ...c,
+          notified: prevNotified.get(c.id) ?? false,
+        }));
+      });
+
+      setUsdToArs(remoteRate);
+      setDataUpdatedAt(payload.updatedAt || null);
+      setLastSyncAt(new Date());
+      setSyncError(null);
+      setAnimKey(k => k + 1);
+    } catch {
+      setSyncError("Sin conexión en vivo");
+    } finally {
+      if (showSpinner) setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadConcerts({ showSpinner: true });
+    const timer = setInterval(() => {
+      loadConcerts();
+    }, POLL_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [loadConcerts]);
+
   const toggleNotify = (id) => {
     setConcerts(prev => prev.map(c => {
       if (c.id !== id) return c;
@@ -104,17 +160,8 @@ export default function App() {
   };
 
   const handleRefresh = useCallback(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setConcerts(prev => prev.map(c => ({
-        ...c,
-        demand:  c.demand  < 100 ? Math.min(100, c.demand  + Math.floor(Math.random() * 4)) : 100,
-        soldPct: c.soldPct < 100 ? Math.min(100, c.soldPct + Math.floor(Math.random() * 3)) : 100,
-      })));
-      setAnimKey(k => k + 1);
-      setLoading(false);
-    }, 1400);
-  }, []);
+    loadConcerts({ showSpinner: true });
+  }, [loadConcerts]);
 
   const filtered = concerts
     .filter(c => genre  === "Todos" || c.genre  === genre)
@@ -205,11 +252,13 @@ export default function App() {
           flexWrap: "wrap", gap: 8,
         }}>
           <div style={{ fontSize: 11, color: "#555", lineHeight: 1.7 }}>
-            📡 <span style={{ color: "#aaa" }}>{LAST_UPDATED}</span>
+            📡 <span style={{ color: "#aaa" }}>{formatUpdatedDate(dataUpdatedAt)}</span>
             {"  ·  "}
-            💱 USD/ARS: <span style={{ color: "#30d158" }}>${USD_TO_ARS.toLocaleString("es-AR")}</span>
+            <span style={{ color: syncError ? "#ff2d55" : "#30d158" }}>{syncError ? "Offline" : "En vivo"}</span>
             {"  ·  "}
-            <span style={{ color: "#444" }}>Actualización semanal</span>
+            💱 USD/ARS: <span style={{ color: "#30d158" }}>${usdToArs.toLocaleString("es-AR")}</span>
+            {"  ·  "}
+            <span style={{ color: "#444" }}>dato: {formatUpdatedDate(dataUpdatedAt)} · sync: {formatSyncTime(lastSyncAt)}</span>
           </div>
           <button onClick={handleRefresh} className="pill" style={{
             padding: "5px 13px", borderRadius: 99,
@@ -416,7 +465,7 @@ export default function App() {
                     }}>
                       <div>
                         <div style={{ fontSize: isMobile ? 13 : 15, fontWeight: 800, color: "#fff", lineHeight: 1.2 }}>
-                          {showUSD ? fmtUSD(c.priceARS) : fmtARS(c.priceARS)}
+                          {showUSD ? fmtUSD(c.priceARS, usdToArs) : fmtARS(c.priceARS)}
                           <span style={{ fontSize: 9, color: "#48484a", fontWeight: 400, marginLeft: 3 }}>
                             {showUSD ? "USD" : "ARS"}
                           </span>

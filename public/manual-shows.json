@@ -1,0 +1,16 @@
+{
+  "shows": [
+    {
+      "artist": "Robbie Williams",
+      "venue": "Movistar Arena",
+      "city": "Buenos Aires",
+      "date": "2026-11-15",
+      "genre": "Pop",
+      "priceARS": 0,
+      "emoji": "🎤",
+      "tag": "Nuevo",
+      "origen": "Internacional",
+      "nota": "Carga manual (confirmar fecha/venue oficial)"
+    }
+  ]
+}
