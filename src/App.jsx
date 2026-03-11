@@ -192,7 +192,7 @@ export default function App() {
   const nacionales    = concerts.filter(c => c.origen === "Nacional").length;
 
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#e8e4d9", fontFamily: "'Georgia', serif", paddingBottom: 80 }}>
+    <div style={{ minHeight: "100vh", background: "var(--color-bg)", color: "var(--color-text-primary)", fontFamily: "'Georgia', serif", paddingBottom: 80 }}>
       <style>{`
         @keyframes fadeUp  { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         @keyframes toastIn { from{opacity:0;transform:translateY(16px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
@@ -207,9 +207,9 @@ export default function App() {
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background:#2a2a2a; border-radius:99px; }
-        select option { background:#1c1c1e; }
+        select option { background:var(--color-surface); }
         input { outline:none; }
-        input::placeholder { color:#48484a; }
+        input::placeholder { color:var(--color-text-tertiary); }
         /* pill scroll row */
         .scroll-row {
           display: flex;
@@ -227,7 +227,7 @@ export default function App() {
       <div style={{
         position: "sticky", top: 0, zIndex: 200,
         background: "rgba(0,0,0,0.93)", backdropFilter: "blur(20px)",
-        borderBottom: "1px solid #1c1c1e",
+        borderBottom: "1px solid var(--color-border-soft)",
         padding: isMobile ? "16px 16px 12px" : "20px 20px 16px",
         textAlign: "center",
       }}>
@@ -245,7 +245,7 @@ export default function App() {
           {[
             { label: `${notifiedCount} alerta${notifiedCount !== 1 ? "s" : ""}`, color: "#ff6b35" },
             { label: `🇦🇷 ${nacionales} nacionales`, color: "#ffd60a" },
-            { label: `${concerts.length} shows`, color: "#48484a" },
+            { label: `${concerts.length} shows`, color: "var(--color-text-muted)" },
           ].map(({ label, color }) => (
             <span key={label} style={{ fontSize: 10, color, letterSpacing: 0.4 }}>{label}</span>
           ))}
@@ -256,25 +256,25 @@ export default function App() {
 
         {/* ───── BANNER ───── */}
         <div style={{
-          background: "#0d0d0d", border: "1px solid #1c1c1e", borderRadius: 14,
+          background: "var(--color-surface)", border: "1px solid var(--color-border-soft)", borderRadius: 14,
           padding: "10px 14px", marginBottom: 14,
           display: "flex", alignItems: "center", justifyContent: "space-between",
           flexWrap: "wrap", gap: 8,
         }}>
-          <div style={{ fontSize: 11, color: "#555", lineHeight: 1.7 }}>
+          <div style={{ fontSize: 11, color: "var(--color-text-secondary)", lineHeight: 1.7 }}>
             📡 <span style={{ color: "#aaa" }}>{formatUpdatedDate(dataUpdatedAt)}</span>
             {"  ·  "}
             <span style={{ color: syncError ? "#ff2d55" : "#30d158" }}>{syncError ? "Offline" : "En vivo"}</span>
             {"  ·  "}
             💱 USD/ARS: <span style={{ color: "#30d158" }}>${usdToArs.toLocaleString("es-AR")}</span>
             {"  ·  "}
-            <span style={{ color: "#444" }}>dato: {formatUpdatedDate(dataUpdatedAt)} · sync: {formatSyncTime(lastSyncAt)}</span>
+            <span style={{ color: "var(--color-text-muted)" }}>dato: {formatUpdatedDate(dataUpdatedAt)} · sync: {formatSyncTime(lastSyncAt)}</span>
           </div>
           <button onClick={handleRefresh} className="pill" style={{
             padding: "5px 13px", borderRadius: 99,
-            background: loading ? "#1c1c1e" : "rgba(255,107,53,0.1)",
+            background: loading ? "var(--color-surface)" : "rgba(255,107,53,0.1)",
             border: "1px solid rgba(255,107,53,0.3)",
-            color: loading ? "#555" : "#ff6b35",
+            color: loading ? "var(--color-text-secondary)" : "#ff6b35",
             fontSize: 11, fontFamily: "inherit",
             display: "flex", alignItems: "center", gap: 5,
           }}>
@@ -290,15 +290,15 @@ export default function App() {
             placeholder="🔍  Artista, lugar o ciudad…"
             style={{
               flex: 1, minWidth: 0, width: "100%",
-              background: "#1c1c1e", border: "1px solid #3a3a3c", borderRadius: 12,
-              padding: "9px 13px", color: "#e8e4d9", fontSize: 13, fontFamily: "inherit",
+              background: "var(--color-surface)", border: "1px solid var(--color-border)", borderRadius: 12,
+              padding: "9px 13px", color: "var(--color-text-primary)", fontSize: 13, fontFamily: "inherit",
             }}
           />
           <div style={{ display: "flex", gap: 7, width: isMobile ? "100%" : "auto" }}>
             <select value={sort} onChange={e => setSort(e.target.value)} style={{
               flex: isMobile ? 1 : "unset",
-              background: "#1c1c1e", border: "1px solid #3a3a3c", borderRadius: 12,
-              padding: "9px 10px", color: "#e8e4d9", fontSize: 12, fontFamily: "inherit", cursor: "pointer",
+              background: "var(--color-surface)", border: "1px solid var(--color-border)", borderRadius: 12,
+              padding: "9px 10px", color: "var(--color-text-primary)", fontSize: 12, fontFamily: "inherit", cursor: "pointer",
             }}>
               <option value="demand">↓ Demanda</option>
               <option value="date">↑ Fecha</option>
@@ -307,9 +307,9 @@ export default function App() {
             <button onClick={() => setShowUSD(s => !s)} className="pill" style={{
               flex: isMobile ? 1 : "unset",
               padding: "9px 12px", borderRadius: 12,
-              background: showUSD ? "rgba(48,209,88,0.12)" : "#1c1c1e",
-              border: showUSD ? "1px solid #30d15866" : "1px solid #3a3a3c",
-              color: showUSD ? "#30d158" : "#8e8e93",
+              background: showUSD ? "rgba(48,209,88,0.12)" : "var(--color-surface)",
+              border: showUSD ? "1px solid #30d15866" : "1px solid var(--color-border)",
+              color: showUSD ? "#30d158" : "var(--color-text-secondary)",
               fontSize: 11, fontFamily: "inherit", whiteSpace: "nowrap",
             }}>
               {showUSD ? "🟢 ARS" : "💵 USD"}
@@ -322,9 +322,9 @@ export default function App() {
           {ORIGEN.map(o => (
             <button key={o} className="pill" onClick={() => setOrigen(o)} style={{
               padding: "5px 14px", borderRadius: 99,
-              border: origen === o ? "1px solid #ffd60a" : "1px solid #2c2c2e",
+              border: origen === o ? "1px solid #ffd60a" : "1px solid var(--color-border-soft)",
               background: origen === o ? "rgba(255,214,10,0.12)" : "transparent",
-              color: origen === o ? "#ffd60a" : "#48484a",
+              color: origen === o ? "#ffd60a" : "var(--color-text-secondary)",
               fontSize: 11, letterSpacing: 0.4, fontFamily: "inherit",
             }}>
               {o === "Nacional" ? "🇦🇷 " : o === "Internacional" ? "🌍 " : ""}{o}
@@ -337,9 +337,9 @@ export default function App() {
           {GENRES.map(g => (
             <button key={g} className="pill" onClick={() => setGenre(g)} style={{
               padding: "4px 11px", borderRadius: 99,
-              border: genre === g ? "1px solid #ff6b35" : "1px solid #2c2c2e",
+              border: genre === g ? "1px solid #ff6b35" : "1px solid var(--color-border-soft)",
               background: genre === g ? "rgba(255,107,53,0.12)" : "transparent",
-              color: genre === g ? "#ff6b35" : "#48484a",
+              color: genre === g ? "#ff6b35" : "var(--color-text-secondary)",
               fontSize: 10, letterSpacing: 0.3, fontFamily: "inherit",
             }}>
               {g}
@@ -350,7 +350,7 @@ export default function App() {
         {/* ───── CARDS ───── */}
         <div key={animKey} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {filtered.length === 0 && (
-            <div style={{ textAlign: "center", color: "#48484a", padding: "52px 0", fontSize: 14 }}>
+            <div style={{ textAlign: "center", color: "var(--color-text-muted)", padding: "52px 0", fontSize: 14 }}>
               No se encontraron recitales con ese filtro.
             </div>
           )}
@@ -431,14 +431,14 @@ export default function App() {
                     )}
 
                     {/* Venue + date */}
-                    <div style={{ fontSize: isMobile ? 10 : 11, color: "#555", marginBottom: c.nota ? 3 : 8 }}>
+                    <div style={{ fontSize: isMobile ? 10 : 11, color: "var(--color-text-secondary)", marginBottom: c.nota ? 3 : 8 }}>
                       📍 {c.venue}
-                      <span style={{ margin: "0 4px", color: "#2c2c2e" }}>·</span>
+                      <span style={{ margin: "0 4px", color: "var(--color-border-soft)" }}>·</span>
                       🗓️ {formatDate(c.date)}
                       {!isMobile && (
                         <span style={{
-                          marginLeft: 6, fontSize: 9, color: "#48484a",
-                          background: "#1c1c1e", padding: "1px 6px", borderRadius: 5,
+                          marginLeft: 6, fontSize: 9, color: "var(--color-text-muted)",
+                          background: "var(--color-surface)", padding: "1px 6px", borderRadius: 5,
                         }}>{c.genre}</span>
                       )}
                     </div>
@@ -455,7 +455,7 @@ export default function App() {
                     {/* Demand bar */}
                     <div style={{ marginBottom: 10 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
-                        <span style={{ fontSize: 9, color: "#3a3a3c", letterSpacing: 0.7, textTransform: "uppercase" }}>Demanda</span>
+                        <span style={{ fontSize: 9, color: "var(--color-text-muted)", letterSpacing: 0.7, textTransform: "uppercase" }}>Demanda</span>
                         <span style={{ fontSize: 9, color, fontFamily: "monospace" }}>{c.demand}% · {c.soldPct}% vendido</span>
                       </div>
                       <div style={{ width: "100%", height: 4, background: "rgba(255,255,255,0.05)", borderRadius: 99, overflow: "hidden" }}>
@@ -478,16 +478,16 @@ export default function App() {
                         <div style={{ fontSize: isMobile ? 13 : 15, fontWeight: 800, color: "#fff", lineHeight: 1.2 }}>
                           {hasKnownPrice ? (showUSD ? fmtUSD(c.priceARS, usdToArs) : fmtARS(c.priceARS)) : "Precio a confirmar"}
                           {hasKnownPrice && (
-                            <span style={{ fontSize: 9, color: "#48484a", fontWeight: 400, marginLeft: 3 }}>
+                            <span style={{ fontSize: 9, color: "var(--color-text-muted)", fontWeight: 400, marginLeft: 3 }}>
                               {showUSD ? "USD" : "ARS"}
                             </span>
                           )}
                         </div>
                         {showUSD && hasKnownPrice && (
-                          <div style={{ fontSize: 9, color: "#48484a" }}>{fmtARS(c.priceARS)} ARS</div>
+                          <div style={{ fontSize: 9, color: "var(--color-text-muted)" }}>{fmtARS(c.priceARS)} ARS</div>
                         )}
                         {!hasKnownPrice && (
-                          <div style={{ fontSize: 9, color: "#48484a" }}>Sin precio oficial publicado</div>
+                          <div style={{ fontSize: 9, color: "var(--color-text-muted)" }}>Sin precio oficial publicado</div>
                         )}
                       </div>
 
@@ -496,17 +496,17 @@ export default function App() {
                           <a href="https://allaccess.com.ar" target="_blank" rel="noopener noreferrer" style={{
                             padding: isMobile ? "6px 10px" : "6px 12px",
                             borderRadius: 99,
-                            background: "rgba(255,255,255,0.05)", border: "1px solid #3a3a3c",
-                            color: "#8e8e93", fontSize: 10, textDecoration: "none", fontFamily: "inherit",
+                            background: "rgba(255,255,255,0.05)", border: "1px solid var(--color-border)",
+                            color: "var(--color-text-secondary)", fontSize: 10, textDecoration: "none", fontFamily: "inherit",
                             whiteSpace: "nowrap",
                           }}>🎟️{!isMobile && " Comprar"}</a>
                         )}
                         <button onClick={() => toggleNotify(c.id)} className="pill" style={{
                           padding: isMobile ? "6px 10px" : "6px 13px",
                           borderRadius: 99,
-                          border: c.notified ? "1px solid #ff6b35" : "1px solid #3a3a3c",
+                          border: c.notified ? "1px solid #ff6b35" : "1px solid var(--color-border)",
                           background: c.notified ? "rgba(255,107,53,0.18)" : "rgba(255,255,255,0.03)",
-                          color: c.notified ? "#ff6b35" : "#636366",
+                          color: c.notified ? "#ff6b35" : "var(--color-text-muted)",
                           fontSize: 10, fontFamily: "inherit", letterSpacing: 0.3,
                           whiteSpace: "nowrap",
                         }}>
@@ -526,7 +526,7 @@ export default function App() {
         {/* ───── LEYENDA ───── */}
         <div style={{
           marginTop: 24, padding: "13px 16px",
-          background: "#0d0d0d", border: "1px solid #1c1c1e", borderRadius: 13,
+          background: "var(--color-surface)", border: "1px solid var(--color-border-soft)", borderRadius: 13,
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(4, 1fr)",
           gap: 9,
@@ -537,14 +537,14 @@ export default function App() {
             { color: "#ffd60a", label: "75–89% — Alta" },
             { color: "#30d158", label: "50–74% — Media" },
           ].map(({ color, label }) => (
-            <div key={label} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10, color: "#555" }}>
+            <div key={label} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10, color: "var(--color-text-secondary)" }}>
               <div style={{ width: 7, height: 7, borderRadius: "50%", background: color, boxShadow: `0 0 4px ${color}`, flexShrink: 0 }} />
               {label}
             </div>
           ))}
         </div>
 
-        <div style={{ textAlign: "center", marginTop: 14, fontSize: 9, color: "#2a2a2a", letterSpacing: 1 }}>
+        <div style={{ textAlign: "center", marginTop: 14, fontSize: 9, color: "var(--color-text-tertiary)", letterSpacing: 1 }}>
           Datos orientativos · Precios sujetos a variación · Comprá siempre en boletería oficial
         </div>
       </div>
