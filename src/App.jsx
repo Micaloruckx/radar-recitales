@@ -357,6 +357,7 @@ export default function App() {
           {filtered.map((c, i) => {
             const { color, glow } = getDemandInfo(c.demand);
             const isSoldOut = c.demand === 100;
+            const hasKnownPrice = Number(c.priceARS) > 0;
             const ringSize = isMobile ? 42 : 48;
 
             return (
@@ -475,13 +476,18 @@ export default function App() {
                     }}>
                       <div>
                         <div style={{ fontSize: isMobile ? 13 : 15, fontWeight: 800, color: "#fff", lineHeight: 1.2 }}>
-                          {showUSD ? fmtUSD(c.priceARS, usdToArs) : fmtARS(c.priceARS)}
-                          <span style={{ fontSize: 9, color: "#48484a", fontWeight: 400, marginLeft: 3 }}>
-                            {showUSD ? "USD" : "ARS"}
-                          </span>
+                          {hasKnownPrice ? (showUSD ? fmtUSD(c.priceARS, usdToArs) : fmtARS(c.priceARS)) : "Precio a confirmar"}
+                          {hasKnownPrice && (
+                            <span style={{ fontSize: 9, color: "#48484a", fontWeight: 400, marginLeft: 3 }}>
+                              {showUSD ? "USD" : "ARS"}
+                            </span>
+                          )}
                         </div>
-                        {showUSD && (
+                        {showUSD && hasKnownPrice && (
                           <div style={{ fontSize: 9, color: "#48484a" }}>{fmtARS(c.priceARS)} ARS</div>
+                        )}
+                        {!hasKnownPrice && (
+                          <div style={{ fontSize: 9, color: "#48484a" }}>Sin precio oficial publicado</div>
                         )}
                       </div>
 
