@@ -60,7 +60,7 @@ npm run dev
 	- `WATCH_ARTISTS` (opcional)
 2. Hacer redeploy de producción.
 3. Verificar endpoint: `/api/concerts-live`.
-4. El archivo `vercel.json` ya deja un cron cada 12 horas llamando ese endpoint.
+4. El archivo `vercel.json` deja un cron diario llamando ese endpoint (compatible con plan Hobby).
 
 ## Notas
 
