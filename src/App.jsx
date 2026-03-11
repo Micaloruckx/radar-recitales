@@ -493,7 +493,7 @@ export default function App() {
 
                       <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                         {!isSoldOut && (
-                          <a href="https://allaccess.com.ar" target="_blank" rel="noopener noreferrer" style={{
+                          <a href="https://www.allaccess.com.ar" target="_blank" rel="noopener noreferrer" style={{
                             padding: isMobile ? "6px 10px" : "6px 12px",
                             borderRadius: 99,
                             background: "rgba(255,255,255,0.05)", border: "1px solid var(--color-border)",

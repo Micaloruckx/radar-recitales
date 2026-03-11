@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-11T20:17:38.427Z",
+  "updatedAt": "2026-03-11T21:01:07.605Z",
   "usdToArs": 1415,
   "concerts": [
     {
@@ -215,13 +215,13 @@
       "city": "Buenos Aires",
       "date": "2026-11-15",
       "genre": "Pop",
-      "demand": 70,
+      "demand": 100,
       "priceARS": 0,
-      "soldPct": 70,
+      "soldPct": 100,
       "emoji": "🎤",
-      "tag": "Nuevo",
+      "tag": "AGOTADO",
       "origen": "Internacional",
-      "nota": "Carga manual (confirmar fecha/venue oficial)"
+      "nota": "Carga manual · estado confirmado: agotado"
     }
   ],
   "meta": {

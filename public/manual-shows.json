@@ -6,11 +6,13 @@
       "city": "Buenos Aires",
       "date": "2026-11-15",
       "genre": "Pop",
+      "demand": 100,
+      "soldPct": 100,
       "priceARS": 0,
       "emoji": "🎤",
-      "tag": "Nuevo",
+      "tag": "AGOTADO",
       "origen": "Internacional",
-      "nota": "Carga manual (confirmar fecha/venue oficial)"
+      "nota": "Carga manual · estado confirmado: agotado"
     }
   ]
 }

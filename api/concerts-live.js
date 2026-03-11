@@ -377,11 +377,11 @@ function mergeConcerts(currentConcerts, externalConcerts) {
     byKey.set(key, {
       ...existing,
       ...concert,
-      demand: existing.demand ?? concert.demand,
-      soldPct: existing.soldPct ?? concert.soldPct,
-      priceARS: concert.priceARS || existing.priceARS,
-      nota: existing.nota || concert.nota,
-      tag: existing.tag || concert.tag,
+      demand: concert.demand ?? existing.demand,
+      soldPct: concert.soldPct ?? existing.soldPct,
+      priceARS: concert.priceARS ?? existing.priceARS,
+      nota: concert.nota || existing.nota,
+      tag: concert.tag || existing.tag,
     });
   }
 
