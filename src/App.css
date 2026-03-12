@@ -2,3 +2,67 @@
   width: 100%;
   min-height: 100vh;
 }
+
+/* Logo styles */
+.header-logo {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+  display: flex;
+  transition: max-width .28s ease;
+}
+
+/* Pills styles */
+.header-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+.header-pill {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border .18s;
+}
+
+@media (max-width: 600px) {
+  .header-logo {
+    max-width: 170px;
+  }
+  .header-pill {
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .header-logo {
+    max-width: 220px;
+  }
+  .header-pill {
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 901px) {
+  .header-logo {
+    max-width: 420px;
+  }
+  .header-pill {
+    width: 24px;
+    height: 24px;
+    font-size: 15px;
+  }
+}
