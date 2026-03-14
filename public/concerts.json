@@ -1,22 +1,7 @@
 {
-  "updatedAt": "2026-03-13T13:00:33.369Z",
-  "usdToArs": 1415,
+  "updatedAt": "2026-03-14T02:05:10.690Z",
+  "usdToArs": 1420,
   "concerts": [
-    {
-      "id": 7,
-      "artist": "Lollapalooza Argentina",
-      "venue": "Hipódromo de San Isidro",
-      "city": "Buenos Aires",
-      "date": "2026-03-13",
-      "genre": "Festival",
-      "demand": 91,
-      "priceARS": 375000,
-      "soldPct": 88,
-      "emoji": "🎪",
-      "tag": "Últimas entradas",
-      "origen": "Internacional",
-      "nota": "Sabrina Carpenter · Tyler The Creator · Lorde · Chappell Roan"
-    },
     {
       "id": 5,
       "artist": "Fito Páez",
