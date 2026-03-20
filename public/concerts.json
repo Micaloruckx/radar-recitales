@@ -1,22 +1,7 @@
 {
-  "updatedAt": "2026-03-19T13:06:53.001Z",
+  "updatedAt": "2026-03-20T02:08:35.295Z",
   "usdToArs": 1415,
   "concerts": [
-    {
-      "id": 5,
-      "artist": "Fito Páez",
-      "venue": "Movistar Arena",
-      "city": "Buenos Aires",
-      "date": "2026-03-19",
-      "genre": "Rock Nacional",
-      "demand": 88,
-      "priceARS": 95000,
-      "soldPct": 80,
-      "emoji": "🎹",
-      "tag": "Alta demanda",
-      "origen": "Nacional",
-      "nota": "2 fechas: 19 y 20 de marzo"
-    },
     {
       "id": 4,
       "artist": "Soda Stereo — ECOS",
