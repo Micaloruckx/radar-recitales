@@ -1,22 +1,7 @@
 {
-  "updatedAt": "2026-03-21T12:51:20.788Z",
+  "updatedAt": "2026-03-22T02:22:59.256Z",
   "usdToArs": 1410,
   "concerts": [
-    {
-      "id": 4,
-      "artist": "Soda Stereo — ECOS",
-      "venue": "Movistar Arena",
-      "city": "Buenos Aires",
-      "date": "2026-03-21",
-      "genre": "Rock Nacional",
-      "demand": 100,
-      "priceARS": 220000,
-      "soldPct": 100,
-      "emoji": "🔮",
-      "tag": "AGOTADO (11 fechas)",
-      "origen": "Nacional",
-      "nota": "Con recreación tecnológica de Gustavo Cerati"
-    },
     {
       "id": 6,
       "artist": "AC/DC",
