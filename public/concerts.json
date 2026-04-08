@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-07T13:23:23.952Z",
+  "updatedAt": "2026-04-08T02:30:52.666Z",
   "usdToArs": 1415,
   "concerts": [
     {
@@ -175,7 +175,6 @@
       ]
     },
     "concertsError": "HTTP 400",
-    "concertsFallbackError": "artist:Robbie Williams: HTTP 503 | artist:Bad Bunny: HTTP 503 | artist:Dua Lipa: HTTP 503 | artist:Lali: HTTP 503 | artist:Coldplay: HTTP 503",
     "watchedArtists": [
       "Robbie Williams",
       "Bad Bunny",
