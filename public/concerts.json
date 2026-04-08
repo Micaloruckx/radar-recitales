@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-08T02:30:52.666Z",
+  "updatedAt": "2026-04-08T13:21:41.674Z",
   "usdToArs": 1415,
   "concerts": [
     {
@@ -175,6 +175,7 @@
       ]
     },
     "concertsError": "HTTP 400",
+    "concertsFallbackError": "artist:Robbie Williams: HTTP 406 | artist:Bad Bunny: HTTP 406 | artist:Dua Lipa: HTTP 406 | artist:Lali: HTTP 406 | artist:Shakira: HTTP 406 | artist:Coldplay: HTTP 406",
     "watchedArtists": [
       "Robbie Williams",
       "Bad Bunny",
