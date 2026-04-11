@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-04-10T13:12:41.431Z",
-  "usdToArs": 1405,
+  "updatedAt": "2026-04-11T02:22:57.529Z",
+  "usdToArs": 1395,
   "concerts": [
     {
       "id": 956087196,
@@ -175,7 +175,7 @@
       ]
     },
     "concertsError": "HTTP 400",
-    "concertsFallbackError": "artist:Robbie Williams: HTTP 406 | artist:Bad Bunny: HTTP 406 | artist:Dua Lipa: HTTP 406 | artist:Lali: HTTP 406 | artist:Shakira: HTTP 406 | artist:Coldplay: HTTP 406",
+    "concertsFallbackError": "https://www.songkick.com/metro-areas/26730-argentina-buenos-aires: HTTP 406 | artist:Robbie Williams: HTTP 406 | artist:Bad Bunny: HTTP 406 | artist:Dua Lipa: HTTP 406 | artist:Lali: HTTP 406 | artist:Shakira: HTTP 406 | artist:Coldplay: HTTP 406",
     "watchedArtists": [
       "Robbie Williams",
       "Bad Bunny",
