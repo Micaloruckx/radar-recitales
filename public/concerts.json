@@ -1,36 +1,7 @@
 {
-  "updatedAt": "2026-05-16T13:23:09.400Z",
+  "updatedAt": "2026-05-17T03:30:35.339Z",
   "usdToArs": 1420,
   "concerts": [
-    {
-      "id": 15,
-      "artist": "Martin Garrix",
-      "venue": "Tecnópolis",
-      "city": "Buenos Aires",
-      "date": "2026-05-16",
-      "genre": "Electrónica",
-      "demand": 68,
-      "priceARS": 130000,
-      "soldPct": 54,
-      "emoji": "🎛️",
-      "tag": "Media demanda",
-      "origen": "Internacional"
-    },
-    {
-      "id": 410079769,
-      "artist": "Ezequiel Arias",
-      "venue": "Umma de Una",
-      "city": "Posadas",
-      "date": "2026-05-16",
-      "genre": "General",
-      "demand": 72,
-      "priceARS": 0,
-      "soldPct": 58,
-      "emoji": "🎤",
-      "tag": "Nuevo",
-      "origen": "Internacional",
-      "nota": "Fuente: Songkick"
-    },
     {
       "id": 8,
       "artist": "Babasónicos",
