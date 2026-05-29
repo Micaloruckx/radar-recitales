@@ -1,22 +1,7 @@
 {
-  "updatedAt": "2026-05-28T15:56:19.653Z",
-  "usdToArs": 1435,
+  "updatedAt": "2026-05-29T03:39:28.026Z",
+  "usdToArs": 1430,
   "concerts": [
-    {
-      "id": 8,
-      "artist": "Babasónicos",
-      "venue": "Movistar Arena",
-      "city": "Buenos Aires",
-      "date": "2026-05-28",
-      "genre": "Rock Nacional",
-      "demand": 92,
-      "priceARS": 110000,
-      "soldPct": 90,
-      "emoji": "🌀",
-      "tag": "Casi agotado",
-      "origen": "Nacional",
-      "nota": "Presentan nuevo álbum 'Escenas'"
-    },
     {
       "id": 10,
       "artist": "Lali",
