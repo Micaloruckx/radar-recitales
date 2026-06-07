@@ -1,21 +1,7 @@
 {
-  "updatedAt": "2026-06-06T13:44:04.947Z",
+  "updatedAt": "2026-06-07T03:59:17.366Z",
   "usdToArs": 1460,
   "concerts": [
-    {
-      "id": 10,
-      "artist": "Lali",
-      "venue": "Estadio River Plate",
-      "city": "Buenos Aires",
-      "date": "2026-06-06",
-      "genre": "Pop Nacional",
-      "demand": 99,
-      "priceARS": 70000,
-      "soldPct": 98,
-      "emoji": "👿",
-      "tag": "Casi agotado",
-      "origen": "Nacional"
-    },
     {
       "id": 12,
       "artist": "Airbag",
