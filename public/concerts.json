@@ -1,22 +1,7 @@
 {
-  "updatedAt": "2026-07-15T13:43:27.262Z",
+  "updatedAt": "2026-07-16T02:36:11.260Z",
   "usdToArs": 1495,
   "concerts": [
-    {
-      "id": 12,
-      "artist": "Airbag",
-      "venue": "Estadio River Plate",
-      "city": "Buenos Aires",
-      "date": "2026-07-15",
-      "genre": "Rock Nacional",
-      "demand": 85,
-      "priceARS": 90000,
-      "soldPct": 70,
-      "emoji": "✈️",
-      "tag": "Alta demanda",
-      "origen": "Nacional",
-      "nota": "Récord: 5 veces en River en el mismo año"
-    },
     {
       "id": 13,
       "artist": "Rosalía — LUX TOUR",
