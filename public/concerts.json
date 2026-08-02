@@ -1,22 +1,7 @@
 {
-  "updatedAt": "2026-08-01T13:20:35.414Z",
+  "updatedAt": "2026-08-02T02:46:56.689Z",
   "usdToArs": 1510,
   "concerts": [
-    {
-      "id": 13,
-      "artist": "Rosalía — LUX TOUR",
-      "venue": "Movistar Arena",
-      "city": "Buenos Aires",
-      "date": "2026-08-01",
-      "genre": "Flamenco Pop",
-      "demand": 85,
-      "priceARS": 220000,
-      "soldPct": 76,
-      "emoji": "🌹",
-      "tag": "Alta demanda",
-      "origen": "Internacional",
-      "nota": "2 fechas: 1 y 2 de agosto"
-    },
     {
       "id": 1311680618,
       "artist": "No Te Va Gustar",
