@@ -1,22 +1,7 @@
 {
-  "updatedAt": "2026-09-16T16:15:38.320Z",
-  "usdToArs": 1530,
+  "updatedAt": "2026-09-17T03:43:38.363Z",
+  "usdToArs": 1535,
   "concerts": [
-    {
-      "id": 1311680618,
-      "artist": "No Te Va Gustar",
-      "venue": "Umma de Una",
-      "city": "Posadas",
-      "date": "2026-09-16",
-      "genre": "reggae",
-      "demand": 72,
-      "priceARS": 0,
-      "soldPct": 58,
-      "emoji": "🎤",
-      "tag": "Nuevo",
-      "origen": "Internacional",
-      "nota": "Fuente: Songkick"
-    },
     {
       "id": 14,
       "artist": "Iron Maiden",
