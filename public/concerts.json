@@ -1,21 +1,7 @@
 {
-  "updatedAt": "2026-10-20T16:26:01.950Z",
+  "updatedAt": "2026-10-21T03:33:30.866Z",
   "usdToArs": 1545,
   "concerts": [
-    {
-      "id": 14,
-      "artist": "Iron Maiden",
-      "venue": "Estadio Huracán",
-      "city": "Buenos Aires",
-      "date": "2026-10-20",
-      "genre": "Metal",
-      "demand": 72,
-      "priceARS": 195000,
-      "soldPct": 58,
-      "emoji": "🤘",
-      "tag": "Media demanda",
-      "origen": "Internacional"
-    },
     {
       "id": 594311839,
       "artist": "Robbie Williams",
