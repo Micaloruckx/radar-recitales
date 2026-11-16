@@ -1,23 +1,7 @@
 {
-  "updatedAt": "2026-11-15T18:31:29.693Z",
+  "updatedAt": "2026-11-16T05:03:11.483Z",
   "usdToArs": 1570,
-  "concerts": [
-    {
-      "id": 594311839,
-      "artist": "Robbie Williams",
-      "venue": "Movistar Arena",
-      "city": "Buenos Aires",
-      "date": "2026-11-15",
-      "genre": "Pop",
-      "demand": 100,
-      "priceARS": 0,
-      "soldPct": 100,
-      "emoji": "🎤",
-      "tag": "AGOTADO",
-      "origen": "Internacional",
-      "nota": "Carga manual · estado confirmado: agotado"
-    }
-  ],
+  "concerts": [],
   "meta": {
     "newConcertsDetected": 0,
     "sources": {
